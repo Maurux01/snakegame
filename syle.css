@@ -1,25 +1,83 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #1e1e2f;
-    color: white;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  h1 {
-    font-size: 36px;
-  }
-  
-  #game-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  #game-board {
-    background-color: #000;
-    border: 2px solid #555;
-    display: block;
-  }
-  
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+
+        .game-container {
+            position: relative;
+            margin: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #gameBoard {
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            background-color: #000;
+        }
+
+        .score-board {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .game-container {
+                margin: 10px;
+                padding: 10px;
+            }
+            
+            #gameBoard {
+                width: 300px;
+                height: 300px;
+            }
+        }
