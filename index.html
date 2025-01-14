@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="game-container">
+<div class="game-container">
         <div class="score-board">
             Score: <span id="score">0</span>
         </div>
@@ -21,8 +21,13 @@
             <p>Final Score: <span id="finalScore">0</span></p>
             <button onclick="startGame()">Play Again</button>
         </div>
+        <div class="direction-indicators">
+            <div class="direction-key key-up">↑</div>
+            <div class="direction-key key-down">↓</div>
+            <div class="direction-key key-left">←</div>
+            <div class="direction-key key-right">→</div>
+        </div>
     </div>
-
   </div>
   <p>Puntuación: <span id="score">0</span></p>
   <script src="script.js"></script>
