@@ -1,5 +1,7 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+const pauseButton = document.getElementById('pauseButton');
+const speedSelector = document.getElementById('speed');
 
 const box = 20;
 let snake = [{ x: 10 * box, y: 10 * box }];
@@ -9,18 +11,39 @@ let food = {
   y: Math.floor(Math.random() * (canvas.height / box)) * box,
 };
 let score = 0;
+let gameInterval;
+let isPaused = false;
+let speed = 100;
 
-// Sound effects
-const eatSound = new Audio('https://www.soundjay.com/button/beep-07.wav');
-const gameOverSound = new Audio('https://www.soundjay.com/button/beep-10.wav');
-
+// Add event listeners
 document.addEventListener('keydown', changeDirection);
+pauseButton.addEventListener('click', togglePause);
+speedSelector.addEventListener('change', changeSpeed);
 
 function changeDirection(event) {
   if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
   if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
   if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
   if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+}
+
+function togglePause() {
+  if (isPaused) {
+    gameInterval = setInterval(draw, speed);
+    pauseButton.textContent = 'Pause';
+  } else {
+    clearInterval(gameInterval);
+    pauseButton.textContent = 'Resume';
+  }
+  isPaused = !isPaused;
+}
+
+function changeSpeed() {
+  speed = parseInt(speedSelector.value, 10);
+  if (!isPaused) {
+    clearInterval(gameInterval);
+    gameInterval = setInterval(draw, speed);
+  }
 }
 
 function drawFood() {
@@ -47,11 +70,8 @@ function updateSnake() {
 
   snake.unshift(head);
 
-  // Check if snake eats the food
   if (head.x === food.x && head.y === food.y) {
     score++;
-    document.getElementById('score').textContent = score;
-    eatSound.play();
     food = {
       x: Math.floor(Math.random() * (canvas.width / box)) * box,
       y: Math.floor(Math.random() * (canvas.height / box)) * box,
@@ -60,15 +80,18 @@ function updateSnake() {
     snake.pop();
   }
 
-  // Check for collisions
   if (
-    head.x < 0 || head.x >= canvas.width ||
-    head.y < 0 || head.y >= canvas.height ||
+    head.x < 0 ||
+    head.x >= canvas.width ||
+    head.y < 0 ||
+    head.y >= canvas.height ||
     snake.slice(1).some(segment => segment.x === head.x && segment.y === head.y)
   ) {
-    gameOverSound.play();
-    alert(`Game Over! Your score: ${score}`);
-    document.location.reload();
+    clearInterval(gameInterval);
+    setTimeout(() => {
+      alert(`Game Over! Your final score is ${score}. Play again?`);
+      document.location.reload();
+    }, 100);
   }
 }
 
@@ -79,4 +102,5 @@ function draw() {
   updateSnake();
 }
 
-setInterval(draw, 100);
+// Start the game
+gameInterval = setInterval(draw, speed);
