@@ -6,25 +6,23 @@ const speedSelector = document.getElementById('speed');
 const box = 20;
 let snake = [{ x: 10 * box, y: 10 * box }];
 let direction = 'RIGHT';
-let food = {
-  x: Math.floor(Math.random() * (canvas.width / box)) * box,
-  y: Math.floor(Math.random() * (canvas.height / box)) * box,
-};
+let nextDirection = 'RIGHT'; // Evitar movimientos opuestos rápidos
+let food = generateFood();
 let score = 0;
 let gameInterval;
 let isPaused = false;
 let speed = 100;
 
-// Add event listeners
+// Event listeners
 document.addEventListener('keydown', changeDirection);
 pauseButton.addEventListener('click', togglePause);
 speedSelector.addEventListener('change', changeSpeed);
 
 function changeDirection(event) {
-  if (event.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-  if (event.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-  if (event.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-  if (event.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+  if (event.key === 'ArrowUp' && direction !== 'DOWN') nextDirection = 'UP';
+  if (event.key === 'ArrowDown' && direction !== 'UP') nextDirection = 'DOWN';
+  if (event.key === 'ArrowLeft' && direction !== 'RIGHT') nextDirection = 'LEFT';
+  if (event.key === 'ArrowRight' && direction !== 'LEFT') nextDirection = 'RIGHT';
 }
 
 function togglePause() {
@@ -46,6 +44,13 @@ function changeSpeed() {
   }
 }
 
+function generateFood() {
+  return {
+    x: Math.floor(Math.random() * (canvas.width / box)) * box,
+    y: Math.floor(Math.random() * (canvas.height / box)) * box,
+  };
+}
+
 function drawFood() {
   ctx.fillStyle = 'red';
   ctx.fillRect(food.x, food.y, box, box);
@@ -61,6 +66,7 @@ function drawSnake() {
 }
 
 function updateSnake() {
+  direction = nextDirection; // Actualiza la dirección después de mover
   const head = { x: snake[0].x, y: snake[0].y };
 
   if (direction === 'UP') head.y -= box;
@@ -72,10 +78,7 @@ function updateSnake() {
 
   if (head.x === food.x && head.y === food.y) {
     score++;
-    food = {
-      x: Math.floor(Math.random() * (canvas.width / box)) * box,
-      y: Math.floor(Math.random() * (canvas.height / box)) * box,
-    };
+    food = generateFood();
   } else {
     snake.pop();
   }
@@ -104,4 +107,3 @@ function draw() {
 
 // Start the game
 gameInterval = setInterval(draw, speed);
-}
