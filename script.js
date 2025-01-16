@@ -104,3 +104,4 @@ function draw() {
 
 // Start the game
 gameInterval = setInterval(draw, speed);
+}
