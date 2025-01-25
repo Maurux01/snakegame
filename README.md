@@ -1,5 +1,6 @@
   # Snake Game
-![image](https://github.com/user-attachments/assets/d0afcd2a-c656-4272-994e-3cbc49751929)
+![image](https://github.com/user-attachments/assets/b4d5dfee-8b6c-46bb-8c03-7c540976d07a)
+
 
 Welcome to **Snake Game**! This is a fun game developed using JavaScript, HTML, and CSS, where you control a snake that must eat fruits to grow without crashing into walls or itself.
 
